@@ -1,12 +1,8 @@
-package sajadvpm.rest.model;
-
-import sajadvpm.feature.file.File;
+package sajadvpm.feature.person.command;
 
 import java.time.LocalDate;
 
-public class PersonModelView {
-
-    private Integer id;
+public class PersonCommandRegister {
 
     private String name;
 
@@ -14,17 +10,9 @@ public class PersonModelView {
 
     private String email;
 
-    private String url;
+    private Integer avatarId;
 
     private LocalDate birthDate;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -50,12 +38,12 @@ public class PersonModelView {
         this.email = email;
     }
 
-    public String getUrl() {
-        return url;
+    public Integer getAvatarId() {
+        return avatarId;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setAvatarId(Integer avatarId) {
+        this.avatarId = avatarId;
     }
 
     public LocalDate getBirthDate() {

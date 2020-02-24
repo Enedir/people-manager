@@ -1,22 +1,23 @@
 package sajadvpm.feature.person;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import sajadvpm.feature.file.File;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
-
 @Entity
-@Table(name = "TBPerson")
+@Table(name = "persons")
 @EntityListeners(AuditingEntityListener.class)
 public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idPerson", updatable = false, nullable = false)
-    private Long id;
+    @Column(updatable = false, nullable = false)
+    private Integer id;
 
     @NotBlank
     private String name;
@@ -27,7 +28,9 @@ public class Person {
     @NotBlank
     private String email;
 
-    private String path;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "avatar_id")
+    private File avatar;
 
     @NotNull
     private LocalDate birthDate;
@@ -46,16 +49,22 @@ public class Person {
         this.name = name;
         this.cpf = cpf;
         this.email = email;
-        this.path = path;
         this.birthDate = birthDate;
         this.isActive = active;
     }
 
-    public Long getId() {
+    public Person(Integer id, File avatar, LocalDate insertDate, LocalDate updateDate) {
+        this.id = id;
+        this.avatar = avatar;
+        this.insertDate = insertDate;
+        this.updateDate = updateDate;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -83,12 +92,12 @@ public class Person {
         this.email = email;
     }
 
-    public String getPath() {
-        return path;
+    public File getAvatar() {
+        return avatar;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setAvatar(File avatar) {
+        this.avatar = avatar;
     }
 
     public LocalDate getBirthDate() {
@@ -97,6 +106,14 @@ public class Person {
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 
     public LocalDate getInsertDate() {
@@ -113,5 +130,23 @@ public class Person {
 
     public void setUpdateDate(LocalDate updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public void deactivate()
+    {
+        isActive = false;
+        updateDate = LocalDate.now();
+    }
+
+    public void newPerson()
+    {
+        isActive = true;
+        insertDate = LocalDate.now();
+    }
+
+    public void updatePerson()
+    {
+        isActive = true;
+        insertDate = LocalDate.now();
     }
 }
