@@ -1,24 +1,36 @@
 package sajadvpm.feature.person;
 
+import br.com.caelum.stella.validation.CPFValidator;
 import org.springframework.stereotype.Service;
 import sajadvpm.exception.NotFoundException;
+import sajadvpm.feature.file.File;
+import sajadvpm.feature.file.FileRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PersonService implements IPersonService  {
+public class PersonService implements IPersonService {
 
     private PersonRepository personRepository;
+    private FileRepository fileRepository;
 
-    public PersonService(PersonRepository personRepository) {
+    public PersonService(PersonRepository personRepository, FileRepository fileRepository) {
         this.personRepository = personRepository;
+        this.fileRepository = fileRepository;
     }
 
     @Override
-    public Integer add(Person entity) {
+    public Integer add(Person entity, Integer avatarId) {
 
-        entity.newPerson();
+        validate(entity.getCpf());
+
+        File avatar = null;
+
+        if (avatarId != null)
+            avatar = fileRepository.findById(avatarId).get();
+
+        entity.newPerson(avatar);
 
         var newPerson = personRepository.save(entity);
 
@@ -26,9 +38,18 @@ public class PersonService implements IPersonService  {
     }
 
     @Override
-    public Boolean update(Person entity) {
+    public Boolean update(Person entity, Integer avatarId) throws NotFoundException {
 
-        entity.updatePerson();
+        validate(entity.getCpf());
+
+        Person existing = get(entity.getId());
+
+        File avatar = null;
+
+        if (avatarId != null)
+            avatar = fileRepository.findById(avatarId).get();
+
+        entity.updatePerson(existing, avatar);
 
         var updatePerson = personRepository.save(entity);
 
@@ -50,6 +71,11 @@ public class PersonService implements IPersonService  {
     }
 
     @Override
+    public List<Person> getByActive() {
+        return personRepository.findAllByActive();
+    }
+
+    @Override
     public Boolean delete(Integer id) throws NotFoundException {
 
         var entity = get(id);
@@ -59,5 +85,11 @@ public class PersonService implements IPersonService  {
         var deletePerson = personRepository.save(entity);
 
         return deletePerson != null;
+    }
+
+
+    private void validate(String cpf){
+        CPFValidator cpfValidator = new CPFValidator();
+        cpfValidator.assertValid(cpf);
     }
 }

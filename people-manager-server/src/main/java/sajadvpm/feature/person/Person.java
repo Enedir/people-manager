@@ -6,8 +6,9 @@ import sajadvpm.feature.file.File;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "persons")
@@ -28,7 +29,7 @@ public class Person {
     @NotBlank
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "avatar_id")
     private File avatar;
 
@@ -38,14 +39,14 @@ public class Person {
     @NotNull
     private Boolean isActive;
 
-    private LocalDate insertDate;
+    private LocalDateTime insertDate;
 
-    private LocalDate updateDate;
+    private LocalDateTime updateDate;
 
     public Person() {
     }
 
-    public Person(String name, String cpf, String email, String path, LocalDate birthDate, Boolean active) {
+    public Person(String name, String cpf, String email, LocalDate birthDate, Boolean active) {
         this.name = name;
         this.cpf = cpf;
         this.email = email;
@@ -53,7 +54,7 @@ public class Person {
         this.isActive = active;
     }
 
-    public Person(Integer id, File avatar, LocalDate insertDate, LocalDate updateDate) {
+    public Person(Integer id, File avatar, LocalDateTime insertDate, LocalDateTime updateDate) {
         this.id = id;
         this.avatar = avatar;
         this.insertDate = insertDate;
@@ -116,37 +117,44 @@ public class Person {
         isActive = active;
     }
 
-    public LocalDate getInsertDate() {
+    public LocalDateTime getInsertDate() {
         return insertDate;
     }
 
-    public void setInsertDate(LocalDate insertDate) {
+    public void setInsertDate(LocalDateTime insertDate) {
         this.insertDate = insertDate;
     }
 
-    public LocalDate getUpdateDate() {
+    public LocalDateTime getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(LocalDate updateDate) {
+    public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
 
     public void deactivate()
     {
-        isActive = false;
-        updateDate = LocalDate.now();
+        this.isActive = Boolean.FALSE;
+        this.updateDate = LocalDateTime.now();
     }
 
-    public void newPerson()
+    public void newPerson(File avatar)
     {
-        isActive = true;
-        insertDate = LocalDate.now();
+        this.avatar = avatar;
+        this.isActive = Boolean.TRUE;
+        this.insertDate = LocalDateTime.now();
     }
 
-    public void updatePerson()
+    public void updatePerson(Person existing, File avatar)
     {
-        isActive = true;
-        insertDate = LocalDate.now();
+        this.avatar = avatar;
+        this.isActive = Boolean.TRUE;
+        this.insertDate = existing.getInsertDate();
+        this.updateDate = LocalDateTime.now();
+    }
+
+    public Boolean hasAvatar(){
+        return  avatar.getId() != null;
     }
 }

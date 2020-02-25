@@ -5,7 +5,5 @@ import sajadvpm.feature.person.Person;
 
 public interface IFileService {
 
-    Integer add(String name,  String path);
-
-    File get(Integer id) throws NotFoundException;
+    Integer add(String name, String path);
 }
