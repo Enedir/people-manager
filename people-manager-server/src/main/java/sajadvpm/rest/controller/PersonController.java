@@ -1,6 +1,8 @@
 package sajadvpm.rest.controller;
 
 import br.com.caelum.stella.validation.CPFValidator;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -33,6 +35,7 @@ public class PersonController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     public ResponseEntity<Integer> post(@Valid @RequestBody PersonCommandRegister command) {
 
         Integer personId = Integer.MIN_VALUE;

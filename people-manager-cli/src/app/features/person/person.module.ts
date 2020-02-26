@@ -10,6 +10,8 @@ import { PersonFormComponent } from './person-form/person-form.component';
 import { PersonCreatorComponent } from './person-creator/person-creator.component';
 import { PersonEditComponent } from './person-edit/person-edit.component';
 
+import { PersonService, PersonResolveService } from './shared/person.service';
+
 
 @NgModule({
   declarations: [
@@ -23,6 +25,10 @@ import { PersonEditComponent } from './person-edit/person-edit.component';
     PersonRoutingModule,
     HttpClientModule,
     SharedModule,
+  ],
+  providers: [
+    PersonService,
+    PersonResolveService
   ]
 })
 export class PersonModule { }

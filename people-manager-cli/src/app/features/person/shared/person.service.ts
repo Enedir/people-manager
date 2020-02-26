@@ -4,9 +4,9 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/r
 
 import { Observable, of, EMPTY } from 'rxjs';
 import { mergeMap, catchError } from 'rxjs/operators'
-import { environment } from './../../../../environments/environment.prod';
+import { environment } from './../../../../environments/environment';
 
-import { Person } from './person.model';
+import { Person, PersonCommandRegister, PersonCommandUpdate } from './person.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +17,27 @@ export class PersonService {
 
   constructor(private _http: HttpClient) {
     this.baseUrl = environment.url;
-}
+  }
+
+  public delete(id: number): Observable<boolean> {
+    return this._http.delete<any>(`${this.baseUrl}/persons/${id}`);
+  }
 
   public get(id: number): Observable<Person> {
-
     return this._http.get<Person>(`${this.baseUrl}/persons/${id}`);
-}
+  }
+
+  public post(commad: PersonCommandRegister): Observable<any> {
+    return this._http.post(`${this.baseUrl}/persons/`, commad);
+  }
+
+  public put(commad: PersonCommandUpdate): Observable<any> {
+    return this._http.put(`${this.baseUrl}/persons/`, commad);
+  }
+
+  public show(): Observable<Person[]> {
+    return this._http.get<Person[]>(`${this.baseUrl}/persons/show`);
+  }
 
 }
 
@@ -36,18 +51,18 @@ export class PersonResolveService implements Resolve<Person> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Person> | Observable<never> {
 
-      const solicitationId = Number(route.params['personId']);
+    const personId = Number(route.params['personId']);
 
-      return this.service.get(solicitationId).pipe(catchError(error => {
-          return EMPTY;
-      }), mergeMap(solicitation => {
-          if (solicitation) {
-              return of(solicitation);
-          } else {
-              return EMPTY;
-          }
-      })
-      )
+    return this.service.get(personId).pipe(catchError(error => {
+      return EMPTY;
+    }), mergeMap(solicitation => {
+      if (solicitation) {
+        return of(solicitation);
+      } else {
+        return EMPTY;
+      }
+    })
+    )
   }
 }
 
