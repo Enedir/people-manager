@@ -1,0 +1,37 @@
+<form [formGroup]="formModel" class="normal-form">
+  <mat-grid-list cols="2" rowHeight="300px">
+
+    <mat-grid-tile>
+      <div class="controles-container">
+        <input type="hidden" formControlName="$key">
+        <mat-form-field>
+          <input formControlName="name" matInput placeholder="Nome Completo *">
+          <mat-error *ngIf="formModel.get('name').hasError('required')">Campo é obrigatório.</mat-error>
+          <mat-error *ngIf="formModel.get('name').hasError('maxlength')">Campo é obrigatório.</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input formControlName="email" matInput placeholder="E-mail *">
+          <mat-error *ngIf="formModel.get('email').hasError('email')">Endereço de e-mail inválido.</mat-error>
+          <mat-error *ngIf="formModel.get('email').hasError('maxlength')">Máximo de 400 caracteres.</mat-error>
+        </mat-form-field>
+      </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <div class="controles-container">
+        <mat-form-field>
+          <input formControlName="cpf" matInput placeholder="CPF *">
+          <mat-error *ngIf="formModel.get('cpf').hasError('required')">Campo é obrigatório.</mat-error>
+          <mat-error *ngIf="formModel.get('cpf')hasError('invalidcpf')">CPF inválido.</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input formControlName="birthDate" matInput [matDatepicker]="picker" placeholder="Data de Nascimento *">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error>Campo é obrigatório.</mat-error>
+        </mat-form-field>
+      </div>
+    </mat-grid-tile>
+
+  </mat-grid-list>
+</form>
