@@ -1,12 +1,10 @@
 import { CpfCnpjValidators } from './../../../shared/cpf/cpf-validator';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { take } from 'rxjs/internal/operators/take';
-
-
 
 import { PersonService } from '../shared/person.service';
 import { PersonCommandRegister } from '../shared/person.model';
@@ -15,9 +13,10 @@ import { PersonCommandRegister } from '../shared/person.model';
   templateUrl: './person-creator.component.html',
   styleUrls: ['./person-creator.component.scss']
 })
-export class PersonCreatorComponent implements OnInit {
+export class PersonCreatorComponent {
 
   public form: FormGroup = this.fb.group({
+    id: [null],
     name: ['', [Validators.required, Validators.maxLength(150)]],
     email: ['', [Validators.email, Validators.maxLength(400)]],
     cpf: ['', [Validators.required, CpfCnpjValidators.checkCpf]],
@@ -28,9 +27,6 @@ export class PersonCreatorComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private service: PersonService) { }
-
-  ngOnInit(): void {
-  }
 
   onCreate(): void {
     const command: PersonCommandRegister = Object.assign(new PersonCommandRegister(), this.form.value);

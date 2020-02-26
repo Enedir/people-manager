@@ -16,10 +16,6 @@ export class PersonCommandRegister {
 }
 
 export class PersonCommandUpdate {
-  constructor(id: number) {
-    this.id = id;
-  }
-
   public id: number;
   public name: string;
   public cpf: string;

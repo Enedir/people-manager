@@ -15,6 +15,7 @@ import sajadvpm.feature.person.IPersonService;
 import sajadvpm.feature.person.Person;
 import sajadvpm.feature.person.command.PersonCommandRegister;
 import sajadvpm.feature.person.command.PersonCommandUpdate;
+import sajadvpm.rest.model.PersonDataGridModelView;
 import sajadvpm.rest.model.PersonModelView;
 import sajadvpm.util.MapperUtils;
 
@@ -78,7 +79,7 @@ public class PersonController {
     public ResponseEntity<List<PersonModelView>> show() {
         try {
             var entities = personService.getByActive();
-            var models = MapperUtils.mapAll(entities, PersonModelView.class);
+            var models = MapperUtils.mapAll(entities, PersonDataGridModelView.class);
             return new ResponseEntity(models, new HttpHeaders(), HttpStatus.OK);
         } catch (Exception ex) {
             ex.printStackTrace();

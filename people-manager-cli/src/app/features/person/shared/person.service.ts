@@ -42,27 +42,18 @@ export class PersonService {
 }
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class PersonResolveService implements Resolve<Person> {
 
   constructor(private service: PersonService) { }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Person> | Observable<never> {
-
-    const personId = Number(route.params['personId']);
-
-    return this.service.get(personId).pipe(catchError(error => {
-      return EMPTY;
-    }), mergeMap(solicitation => {
-      if (solicitation) {
-        return of(solicitation);
-      } else {
-        return EMPTY;
-      }
-    })
-    )
+  resolve(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<Person> | Promise<Person> | any {
+    return this.service.get(Number(route.paramMap.get('personId')));
   }
+
+
 }
 

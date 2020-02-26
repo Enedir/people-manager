@@ -7,6 +7,16 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./person-form.component.scss']
 })
 export class PersonFormComponent {
+  
+  previewUrl: string | ArrayBuffer = '';
 
   @Input() public formModel: FormGroup;
+
+  loadImage(event: any) {
+    var reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload = () => {
+        this.previewUrl = reader.result;
+    }
+  }
 }

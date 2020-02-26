@@ -1,17 +1,47 @@
 <form [formGroup]="formModel" class="normal-form">
-  <mat-grid-list cols="2" rowHeight="300px">
+  <mat-grid-list cols="2" rowHeight="200px">
 
     <mat-grid-tile>
       <div class="controles-container">
+        <div *ngIf="previewUrl">
+          <img [src]="previewUrl" style="
+          width: 250px;
+          height: 200px;
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+          border-radius: 25%;" />
+        </div>
+      </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <div class="controles-container">
+        <button mat-raised-button type="button" style="width: 100%;" (click)="imgFileInput.click()">
+          <mat-icon>attachment</mat-icon>
+          <mat-label style="padding-left: 5%;">Adicionar Imagem</mat-label>
+        </button>
+        <input hidden type="file" #imgFileInput accept="image/*" (change)="loadImage($event)" />
+      </div>
+    </mat-grid-tile>
+
+
+    <mat-grid-tile>
+      <div class="controles-container">
+        <input type="hidden" formControlName="id">
         <mat-form-field>
           <input formControlName="name" matInput placeholder="Nome Completo *">
-          <mat-error *ngIf="formModel.get('name').hasError('required') && formModel.get('name').touched">Campo é obrigatório.</mat-error>
-          <mat-error *ngIf="formModel.get('name').hasError('maxlength') && formModel.get('name').touched">Máximo de 150 caracteres.</mat-error>
+          <mat-error *ngIf="formModel.get('name').hasError('required') && formModel.get('name').touched">Campo é
+            obrigatório.</mat-error>
+          <mat-error *ngIf="formModel.get('name').hasError('maxlength') && formModel.get('name').touched">Máximo de 150
+            caracteres.</mat-error>
         </mat-form-field>
         <mat-form-field>
           <input formControlName="email" matInput placeholder="E-mail *">
-          <mat-error *ngIf="formModel.get('email').hasError('email') && formModel.get('email').touched">Endereço de e-mail inválido.</mat-error>
-          <mat-error *ngIf="formModel.get('email').hasError('maxlength') && formModel.get('email').touched">Máximo de 400 caracteres.</mat-error>
+          <mat-error *ngIf="formModel.get('email').hasError('email') && formModel.get('email').touched">Endereço de
+            e-mail inválido.</mat-error>
+          <mat-error *ngIf="formModel.get('email').hasError('maxlength') && formModel.get('email').touched">Máximo de
+            400 caracteres.</mat-error>
         </mat-form-field>
       </div>
     </mat-grid-tile>
@@ -20,14 +50,17 @@
       <div class="controles-container">
         <mat-form-field>
           <input formControlName="cpf" matInput placeholder="CPF *">
-          <mat-error *ngIf="formModel.get('cpf').hasError('required') && formModel.get('cpf').touched">Campo é obrigatório.</mat-error>
-          <mat-error *ngIf="formModel.get('cpf')hasError('invalidcpf') && formModel.get('cpf').touched">CPF inválido.</mat-error>
+          <mat-error *ngIf="formModel.get('cpf').hasError('required') && formModel.get('cpf').touched">Campo é
+            obrigatório.</mat-error>
+          <mat-error *ngIf="formModel.get('cpf')hasError('invalidcpf') && formModel.get('cpf').touched">CPF inválido.
+          </mat-error>
         </mat-form-field>
         <mat-form-field>
           <input formControlName="birthDate" matInput [matDatepicker]="picker" placeholder="Data de Nascimento *">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
-          <mat-error *ngIf="formModel.get('birthDate').hasError('required') && formModel.get('birthDate').touched">Campo é obrigatório.</mat-error>
+          <mat-error *ngIf="formModel.get('birthDate').hasError('required') && formModel.get('birthDate').touched">Campo
+            é obrigatório.</mat-error>
         </mat-form-field>
       </div>
     </mat-grid-tile>

@@ -1,1 +1,11 @@
-<p>person-edit works!</p>
+<mat-toolbar>Atualização de Pessoa</mat-toolbar>
+
+<sajadv-person-form [formModel]="form"></sajadv-person-form>
+
+<div class="footer-row">
+  <div class="button-row">
+    <button mat-raised-button color="primary" type="submit" (click)="onEdit()"
+      [disabled]="form.invalid">Salvar</button>
+    <button mat-raised-button color="warn" (click)="redirect()">Fechar</button>
+  </div>
+</div>

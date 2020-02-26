@@ -1,6 +1,9 @@
 package sajadvpm.feature.person.command;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -10,7 +13,6 @@ import java.time.LocalDate;
 
 public class PersonCommandUpdate {
 
-    @NotNull
     private Integer id;
 
     @NotNull(message = "O nome não pode ser nulo.")
@@ -18,19 +20,20 @@ public class PersonCommandUpdate {
     private String name;
 
     @NotNull(message = "O cpf não pode ser nulo.")
-    @NotBlank(message = "O cpf não pode estar vazio.")
-    @Size(max = 10, message = "O cpf deve ter no máximo de 9 caractes.")
+    @NotBlank(message = "O cpf não pode estar em vazio.")
+    @Size(max = 11, message = "O cpf deve ter no máximo de 9 caractes.")
     private String cpf;
 
     @Email(message = "O email deve ser válido.")
-    @NotBlank(message = "O email não pode estar vazio.")
+    @NotBlank(message = "O email não pode estar em vazio.")
     @Size(max = 400, message = "O email deve ter no máximo de 400 caractes.")
     private String email;
 
     private Integer avatarId;
 
     @NotNull(message = "O data de nascimento não pode ser nula.")
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate birthDate;
 
     public Integer getId() {

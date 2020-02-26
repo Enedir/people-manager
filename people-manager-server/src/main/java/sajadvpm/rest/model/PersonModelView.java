@@ -1,10 +1,5 @@
 package sajadvpm.rest.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import sajadvpm.feature.file.File;
-
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import java.time.LocalDate;
 
 public class PersonModelView {
@@ -19,7 +14,6 @@ public class PersonModelView {
 
     private String url;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR", timezone = "Brazil/East")
     private LocalDate birthDate;
 
     public Integer getId() {
