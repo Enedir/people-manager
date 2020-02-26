@@ -11,6 +11,8 @@ import { PersonCreatorComponent } from './person-creator/person-creator.componen
 import { PersonEditComponent } from './person-edit/person-edit.component';
 
 import { PersonService, PersonResolveService } from './shared/person.service';
+import { PersonContextRemoveDialog } from './shared/person-context-remove-dialog/person-context-remove.dialog';
+
 
 
 @NgModule({
@@ -18,7 +20,8 @@ import { PersonService, PersonResolveService } from './shared/person.service';
     PersonListComponent, 
     PersonFormComponent, 
     PersonCreatorComponent, 
-    PersonEditComponent
+    PersonEditComponent, 
+    PersonContextRemoveDialog
   ],
   imports: [
     CommonModule,

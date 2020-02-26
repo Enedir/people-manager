@@ -61,6 +61,15 @@ public class Person {
         this.updateDate = updateDate;
     }
 
+    public Person(String name, String cpf, String email, LocalDate birthDate, Boolean isActive, LocalDateTime insertDate) {
+        this.name = name;
+        this.cpf = cpf;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.isActive = isActive;
+        this.insertDate = insertDate;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -155,6 +164,6 @@ public class Person {
     }
 
     public Boolean hasAvatar(){
-        return  avatar.getId() != null;
+        return  avatar != null;
     }
 }

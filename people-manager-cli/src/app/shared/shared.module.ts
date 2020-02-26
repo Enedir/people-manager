@@ -4,8 +4,13 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule } from './material/material.module';
+import { CpfCnpjPipe } from './cpf/cpf-cnpj.pipe';
 
 @NgModule({
+  declarations:
+  [
+    CpfCnpjPipe,
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -15,6 +20,7 @@ import { MaterialModule } from './material/material.module';
   exports:[
     ReactiveFormsModule,
     MaterialModule,
+    CpfCnpjPipe,
   ]
 })
 export class SharedModule { }
