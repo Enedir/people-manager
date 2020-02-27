@@ -9,4 +9,7 @@ public interface PersonRepository  extends JpaRepository<Person, Integer> {
 
     @Query(value = "SELECT * FROM persons WHERE is_active = true", nativeQuery = true)
     List<Person> findAllByActive();
+
+    @Query(value = "SELECT COUNT(*) FROM persons WHERE cpf = ?1", nativeQuery = true)
+     Integer getCpfCount(String cpf);
 }

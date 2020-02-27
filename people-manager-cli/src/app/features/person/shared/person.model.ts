@@ -3,6 +3,7 @@ export class Person {
   public name: string;
   public cpf: string;
   public email: string;
+  public avatarId?: number;
   public url?: string;
   public birthDate: Date;
 }

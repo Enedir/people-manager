@@ -14,6 +14,8 @@ public class PersonModelView {
 
     private String url;
 
+    private Integer avatarId;
+
     private LocalDate birthDate;
 
     public Integer getId() {
@@ -54,6 +56,14 @@ public class PersonModelView {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Integer getAvatarId() {
+        return avatarId;
+    }
+
+    public void setAvatarId(Integer avatarId) {
+        this.avatarId = avatarId;
     }
 
     public LocalDate getBirthDate() {

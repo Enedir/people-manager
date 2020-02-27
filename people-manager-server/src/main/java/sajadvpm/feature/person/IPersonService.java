@@ -17,4 +17,6 @@ public interface IPersonService {
     List<Person> getByActive();
 
     Boolean delete(Integer id) throws NotFoundException;
+
+    Boolean checkCpfIsRepeated(String cpf);
 }

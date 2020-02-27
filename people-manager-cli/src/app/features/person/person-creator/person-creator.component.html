@@ -1,6 +1,6 @@
 <mat-toolbar>Cadastro de Pessoa</mat-toolbar>
 
-<sajadv-person-form [formModel]="form"></sajadv-person-form>
+<sajadv-person-form [formModel]="form" (updaloadResponse)="onUpdaloadResponse($event)"></sajadv-person-form>
 
 <div class="footer-row">
   <div class="button-row">

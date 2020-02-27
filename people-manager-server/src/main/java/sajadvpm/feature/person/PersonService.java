@@ -12,6 +12,8 @@ import java.util.Optional;
 @Service
 public class PersonService implements IPersonService {
 
+    private int _isGreaterThan = 0;
+
     private PersonRepository personRepository;
     private FileRepository fileRepository;
 
@@ -85,6 +87,11 @@ public class PersonService implements IPersonService {
         var deletePerson = personRepository.save(entity);
 
         return deletePerson != null;
+    }
+
+    @Override
+    public Boolean checkCpfIsRepeated(String cpf) {
+        return  personRepository.getCpfCount(cpf) > _isGreaterThan;
     }
 
 

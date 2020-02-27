@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs/internal/operators/take';
-import { Subject } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { PersonService } from '../shared/person.service';
 
 import { CpfCnpjValidators } from './../../../shared/cpf/cpf-validator';
 
 import { Person, PersonCommandUpdate } from './../shared/person.model';
-import { takeUntil } from 'rxjs/operators';
-import { HttpErrorResponse } from '@angular/common/http';
+import { PersonFormComponent } from '../person-form/person-form.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   templateUrl: './person-edit.component.html',
@@ -18,10 +19,15 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class PersonEditComponent implements OnInit {
 
+  private person : Person;
+
   constructor(private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private service: PersonService) { }
+    private service: PersonService,
+    public snackBar: MatSnackBar) { }
+
+    url: string;
 
     public form: FormGroup = this.fb.group({
       id: [0],
@@ -34,35 +40,49 @@ export class PersonEditComponent implements OnInit {
    
   ngOnInit(): void {
     this.route.data.subscribe(response => {
-      const person = Object.assign(new Person(), response.solicitation);
+      this.person = Object.assign(new Person(), response.solicitation);
+      console.log(this.person.url);
       this.form.setValue(
         {
-          'id': person.id,
-          'name': person.name,
-          'email': person.email,
-          'cpf': person.cpf,
-          'birthDate': new Date(person.birthDate)
+          'id': this.person.id,
+          'name': this.person.name,
+          'email': this.person.email,
+          'cpf': this.person.cpf,
+          'birthDate': new Date(this.person.birthDate)
         });
-
+        this.url = this.person.url;
     });
   }
 
+  onUpdaloadResponse(imageId: number): void {
+    this.person.avatarId = imageId;
+  }
+
+
   public onEdit(): void {
     const command: PersonCommandUpdate = Object.assign(new PersonCommandUpdate(), this.form.value);
+    command.avatarId = this.person.avatarId;
+    
     this.service.put(command)
       .pipe(take(1))
       .subscribe(() => {
+        this.snackBar.open('Registro atualizado com sucesso.', 'Fechar', {
+          duration: 2000,
+          panelClass: ['green-snackbar']
+        });
+
         this.redirect();
       }, (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
-          // A client-side or network error occurred.
-          // this.spinner.hide();
-          alert('Aconteceu um erro:' + err.error.message);
+          this.snackBar.open('Aconteceu um erro de conexão com o servidor teste mais tarde.', 'Fechar', {
+            duration: 2000,
+            panelClass: ['blue-snackbar']
+          });
         } else {
-          // Backend returns unsuccessful response codes such as 404, 500 etc.
-          alert('Aconteceu um erro: status ->  ' + err.status + 'mensagem de erro -> ' + err.error);
-          // this.spinner.hide();
-          // Log errors if any
+          this.snackBar.open('Aconteceu um erro: status ->  ' + err.status + 'mensagem de erro -> ' + err.error, 'Fechar', {
+            duration: 2000,
+            panelClass: ['red-snackbar']
+          });
         }
       });
   }

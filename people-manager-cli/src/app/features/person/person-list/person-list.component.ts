@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PersonContextRemoveDialog } from '../shared/person-context-remove-dialog/person-context-remove.dialog';
 
 import { PersonService } from '../shared/person.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -20,17 +21,20 @@ import { PersonService } from '../shared/person.service';
 })
 export class PersonListComponent implements OnInit {
 
-  constructor(private service: PersonService, 
-              private router: Router, 
-              private route: ActivatedRoute,
-              public dialog: MatDialog) { }
+  public searchKey: string;
 
   dataGrid: MatTableDataSource<Person>;
   displayedColumns: string[] = ['name', 'cpf', 'email', 'birthDate','actions'];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  public searchKey: string;
 
+  constructor(private service: PersonService, 
+              private router: Router, 
+              private route: ActivatedRoute,
+              public dialog: MatDialog,
+              public snackBar: MatSnackBar) { }
+
+ 
   ngOnInit(): void {
     this.refresh();
   }
@@ -39,7 +43,7 @@ export class PersonListComponent implements OnInit {
     this.router.navigate(['./edit', `${person.id}`], { relativeTo: this.route });
   }
 
-  openRemoveDialog(person : Person) {
+  openRemoveDialog(person : Person) { 
     const dialogRef = this.dialog.open(PersonContextRemoveDialog);
 
     dialogRef.afterClosed().subscribe(result => {
@@ -48,16 +52,21 @@ export class PersonListComponent implements OnInit {
           .pipe(take(1))
           .subscribe((x: any) => {
             this.refresh();
+            this.snackBar.open('Ação realizado com sucesso.', 'Fechar', {
+              duration: 2000,
+              panelClass: ['green-snackbar']
+            });
           }, (err: HttpErrorResponse) => {
             if (err.error instanceof Error) {
-              // A client-side or network error occurred.
-              // this.spinner.hide();
-              alert('Aconteceu um erro:' + err.error.message);
+              this.snackBar.open('Aconteceu um erro de conexão com o servidor teste mais tarde.', 'Fechar', {
+                duration: 2000,
+                panelClass: ['blue-snackbar']
+              });
             } else {
-              // Backend returns unsuccessful response codes such as 404, 500 etc.
-              alert('Aconteceu um erro: status ->  ' + err.status + 'mensagem de erro -> ' + err.error);
-              // this.spinner.hide();
-              // Log errors if any
+              this.snackBar.open('Aconteceu um erro: status ->  ' + err.status + 'mensagem de erro -> ' + err.error, 'Fechar', {
+                duration: 2000,
+                panelClass: ['red-snackbar']
+              });
             }
           });
         }

@@ -39,6 +39,10 @@ export class PersonService {
     return this._http.get<Person[]>(`${this.baseUrl}/persons/show`);
   }
 
+  public IsCpfRepeated(cpf: string) : Observable<any> {
+    return this._http.get(`${this.baseUrl}/persons/checkCpfIsRepeated/${cpf}`);
+  }
+
 }
 
 

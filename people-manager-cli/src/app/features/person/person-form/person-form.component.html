@@ -3,14 +3,8 @@
 
     <mat-grid-tile>
       <div class="controles-container">
-        <div *ngIf="previewUrl">
-          <img [src]="previewUrl" style="
-          width: 250px;
-          height: 200px;
-          display: block;
-          margin-left: auto;
-          margin-right: auto;
-          border-radius: 25%;" />
+        <div>
+          <img class="controlres-img" [src]="previewUrl || 'assets/user.png'" />
         </div>
       </div>
     </mat-grid-tile>
@@ -53,6 +47,8 @@
           <mat-error *ngIf="formModel.get('cpf').hasError('required') && formModel.get('cpf').touched">Campo é
             obrigatório.</mat-error>
           <mat-error *ngIf="formModel.get('cpf')hasError('invalidcpf') && formModel.get('cpf').touched">CPF inválido.
+          </mat-error>
+          <mat-error *ngIf="formModel.get('cpf')hasError('cpfRepeated') && formModel.get('cpf').touched">CPF repetido.
           </mat-error>
         </mat-form-field>
         <mat-form-field>

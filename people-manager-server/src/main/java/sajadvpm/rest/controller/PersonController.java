@@ -36,7 +36,6 @@ public class PersonController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     public ResponseEntity<Integer> post(@Valid @RequestBody PersonCommandRegister command) {
 
         Integer personId = Integer.MIN_VALUE;
@@ -98,11 +97,12 @@ public class PersonController {
 
             if (entity.hasAvatar()) {
                 String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("/uploads/")
+                        .path("/api/uploads/downloadFile/")
                         .path(entity.getAvatar().getPath())
                         .toUriString();
 
                 model.setUrl(fileDownloadUri);
+                model.setAvatarId(entity.getAvatar().getId());
             }
 
             return new ResponseEntity(model, new HttpHeaders(), HttpStatus.OK);
@@ -127,5 +127,11 @@ public class PersonController {
         }
 
         return new ResponseEntity(isDelete, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping("/checkCpfIsRepeated/{cpf}")
+    public ResponseEntity<Boolean> checkCpfIsRepeated(@PathVariable(required = true) String cpf) {
+
+        return  new ResponseEntity(personService.checkCpfIsRepeated(cpf), new HttpHeaders(), HttpStatus.OK);
     }
 }
