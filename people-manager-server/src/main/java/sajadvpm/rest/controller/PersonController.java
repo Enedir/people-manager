@@ -38,6 +38,8 @@ public class PersonController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Integer> post(@Valid @RequestBody PersonCommandRegister command) {
 
+        logger.info("Iniciando o processo de internalização do registro na base.");
+
         Integer personId = Integer.MIN_VALUE;
 
         try {
@@ -57,6 +59,8 @@ public class PersonController {
     @PutMapping
     public ResponseEntity<Boolean> put(@Valid @RequestBody PersonCommandUpdate command) {
 
+        logger.info("Iniciando o processo de atualização de registro com o id:" + command.getId()  + " na base ");
+
         Boolean isUpdate = Boolean.FALSE;
 
         try {
@@ -66,7 +70,6 @@ public class PersonController {
             isUpdate = personService.update(entity, command.getAvatarId());
 
         } catch (Exception e) {
-            e.printStackTrace();
             logger.error(e.getMessage());
             return new ResponseEntity(e.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
         }
@@ -80,8 +83,8 @@ public class PersonController {
             var entities = personService.getByActive();
             var models = MapperUtils.mapAll(entities, PersonDataGridModelView.class);
             return new ResponseEntity(models, new HttpHeaders(), HttpStatus.OK);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
@@ -106,8 +109,8 @@ public class PersonController {
             }
 
             return new ResponseEntity(model, new HttpHeaders(), HttpStatus.OK);
-        } catch (NotFoundException ex) {
-            ex.printStackTrace();
+        } catch (NotFoundException e) {
+            logger.error(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
@@ -115,13 +118,14 @@ public class PersonController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable(required = true) Integer id) {
 
+        logger.info("Iniciando o processo de remoção do registro " + id  + "na base.");
+
         Boolean isDelete = Boolean.FALSE;
 
         try {
             isDelete = personService.delete(id);
 
         } catch (NotFoundException e) {
-            e.printStackTrace();
             logger.error(e.getMessage());
             return new ResponseEntity(e.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
         }

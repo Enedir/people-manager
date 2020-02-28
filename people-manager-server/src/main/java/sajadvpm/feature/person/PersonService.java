@@ -1,6 +1,8 @@
 package sajadvpm.feature.person;
 
 import br.com.caelum.stella.validation.CPFValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import sajadvpm.exception.CpfValidationExeption;
 import sajadvpm.exception.NotFoundException;
@@ -12,6 +14,8 @@ import java.util.Optional;
 
 @Service
 public class PersonService implements IPersonService {
+
+    private static final Logger logger = LoggerFactory.getLogger(PersonService.class);
 
     private int _isGreaterThan = 0;
 
@@ -26,6 +30,8 @@ public class PersonService implements IPersonService {
     @Override
     public Integer add(Person entity, Integer avatarId) throws CpfValidationExeption {
 
+        logger.info("Validando se o CPF é valido para persistir o registro na base.");
+
         validate(entity.getCpf());
 
         File avatar = null;
@@ -35,6 +41,8 @@ public class PersonService implements IPersonService {
 
         entity.newPerson(avatar);
 
+        logger.info("Persistindo uma pessoa na base.");
+
         var newPerson = personRepository.save(entity);
 
         return newPerson.getId();
@@ -42,6 +50,8 @@ public class PersonService implements IPersonService {
 
     @Override
     public Boolean update(Person entity, Integer avatarId) throws NotFoundException, CpfValidationExeption {
+
+        logger.info("Validando se o CPF é valido para a atualização do registro "  + entity.getId() + " na base.");
 
         validate(entity.getCpf());
 
@@ -53,6 +63,8 @@ public class PersonService implements IPersonService {
             avatar = fileRepository.findById(avatarId).get();
 
         entity.updatePerson(existing, avatar);
+
+        logger.info("Atualizando a pessoa " + entity.getId() +" na base.");
 
         var updatePerson = personRepository.save(entity);
 
@@ -82,6 +94,8 @@ public class PersonService implements IPersonService {
     public Boolean delete(Integer id) throws NotFoundException {
 
         var entity = get(id);
+
+        logger.info("Desativando a pessoa " + id +" na base.");
 
         entity.deactivate();
 

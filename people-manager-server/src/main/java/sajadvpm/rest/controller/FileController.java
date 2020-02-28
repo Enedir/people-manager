@@ -36,6 +36,8 @@ public class FileController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Long> uploadFile(@RequestParam("file") MultipartFile file) {
 
+        logger.info("recepcionado uma imagem na base.");
+
         try {
             var fileName = fileStorageService.storeFile(file);
             var avatarId = fileService.add(file.getName(), fileName);
@@ -58,7 +60,7 @@ public class FileController {
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (IOException ex) {
-            logger.info("Could not determine file type.");
+            logger.info("Não foi possível determinar o tipo de arquivo.");
         }
 
         // Fallback to the default content type if type could not be determined
