@@ -46,6 +46,10 @@ public class Person {
     public Person() {
     }
 
+    public Person(Integer id) {
+        this.id   = id;
+    }
+
     public Person(String name, String cpf, String email, LocalDate birthDate, Boolean active) {
         this.name = name;
         this.cpf = cpf;

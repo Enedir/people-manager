@@ -2,6 +2,7 @@ package sajadvpm.feature.person;
 
 import br.com.caelum.stella.validation.CPFValidator;
 import org.springframework.stereotype.Service;
+import sajadvpm.exception.CpfValidationExeption;
 import sajadvpm.exception.NotFoundException;
 import sajadvpm.feature.file.File;
 import sajadvpm.feature.file.FileRepository;
@@ -23,7 +24,7 @@ public class PersonService implements IPersonService {
     }
 
     @Override
-    public Integer add(Person entity, Integer avatarId) {
+    public Integer add(Person entity, Integer avatarId) throws CpfValidationExeption {
 
         validate(entity.getCpf());
 
@@ -40,7 +41,7 @@ public class PersonService implements IPersonService {
     }
 
     @Override
-    public Boolean update(Person entity, Integer avatarId) throws NotFoundException {
+    public Boolean update(Person entity, Integer avatarId) throws NotFoundException, CpfValidationExeption {
 
         validate(entity.getCpf());
 
@@ -95,8 +96,15 @@ public class PersonService implements IPersonService {
     }
 
 
-    private void validate(String cpf){
+    private void validate(String cpf) throws CpfValidationExeption {
+
         CPFValidator cpfValidator = new CPFValidator();
-        cpfValidator.assertValid(cpf);
+
+        try {
+            cpfValidator.assertValid(cpf);
+        }catch (Exception ex)
+        {
+             throw new CpfValidationExeption();
+        }
     }
 }
