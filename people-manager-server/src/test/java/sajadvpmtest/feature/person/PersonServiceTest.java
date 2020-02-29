@@ -146,9 +146,8 @@ public class PersonServiceTest {
         persons.add(new Person("TESTE1", "76060106099", "teste1@gmail", LocalDate.now(), Boolean.TRUE));
         persons.add(new Person(1, "TESTE2", "76060106045", "teste2@gmail", LocalDate.now(), Boolean.TRUE));
 
-        List<Person> result = null;
         // Act
-        result = service.upsert(persons);
+        var result = service.upsert(persons);
 
 
         // Assert
