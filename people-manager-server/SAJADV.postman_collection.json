@@ -22,7 +22,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "\r\n{\r\n\t\"name\": \"Teste\",\r\n\t\"cpf\": \"92486538046\",\r\n\t\"email\": \"teste@gmail\",\r\n\t\"avatarId\": 1,\r\n\t\"birthDate\": \"2019-09-22\"\r\n}",
+							"raw": "\r\n{\r\n\t\"name\": \"Teste\",\r\n\t\"cpf\": \"92486538046\",\r\n\t\"email\": \"teste@gmail\",\r\n\t\"avatarId\": 1,\r\n\t\"birthDate\": \"1994-05-16T03:00:00.000Z\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -50,7 +50,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/persons/2",
+							"raw": "http://localhost:8080/api/persons/5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -59,7 +59,7 @@
 							"path": [
 								"api",
 								"persons",
-								"2"
+								"5"
 							]
 						}
 					},
@@ -79,7 +79,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"id\": 1,\r\n\t\"name\": \"ASDASDA\",\r\n\t\"cpf\": \"29982676024\",\r\n\t\"email\": \"teste@gmail\",\r\n\t\"avatarId\": null,\r\n\t\"birthDate\": \"2019-09-22\"\r\n}",
+							"raw": "{\r\n\t\"id\": \"1\",\r\n\t\"name\": \"Jason Schultz teste\",\r\n\t\"email\": \"ut.mi.Duis@facilisis.ca\",\r\n\t\"cpf\": \"2494699100\",\r\n\t\"birthDate\": \"1994-10-29T00:00:00.000Z\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -187,12 +187,59 @@
 			"name": "Integrações",
 			"item": [
 				{
-					"name": "LIst",
+					"name": "List",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:8080/api/integrations/getall",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"integrations",
+								"getall"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Receive",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n  {\n    \"id\": 5,\n    \"name\": \"Giacomo teste\",\n    \"cpf\": \"71695562003\",\n    \"email\": \"arcu.imperdiet@utpellentesque.edu\",\n    \"birthDate\": \"1994-07-10\"\n  },\n\t\n\t{\n    \"name\": \"Teste\",\n    \"cpf\": \"71695562003\",\n    \"email\": \"arcuere@utpellentesque.edu\",\n    \"birthDate\": \"1997-08-10\"\t\n\t}\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/integrations/receive",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"integrations",
+								"receive"
+							]
 						}
 					},
 					"response": []

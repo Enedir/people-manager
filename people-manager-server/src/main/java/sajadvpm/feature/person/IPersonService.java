@@ -11,6 +11,8 @@ public interface IPersonService {
 
     Boolean update(Person entity, Integer avatarId) throws NotFoundException, CpfValidationExeption;
 
+    List<Person> upsert(List<Person> entities);
+
     Person get(Integer id) throws NotFoundException;
 
     List<Person> get();

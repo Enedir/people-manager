@@ -14,6 +14,8 @@ import sajadvpm.feature.person.PersonRepository;
 import sajadvpm.feature.person.PersonService;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -41,7 +43,7 @@ public class PersonServiceTest {
         // Arrange
         when(mockPersonRepository.save(any())).thenReturn(new Person(1));
 
-        var person = new Person("TESTE","76060106099","teste@gmail", LocalDate.now(), Boolean.FALSE);
+        var person = new Person("TESTE", "76060106099", "teste@gmail", LocalDate.now(), Boolean.FALSE);
 
         // Act
         Integer result = null;
@@ -60,7 +62,7 @@ public class PersonServiceTest {
         // Arrange
         when(mockPersonRepository.save(any())).thenReturn(new Person(1));
 
-        var person = new Person("TESTE","111111","teste@gmail", LocalDate.now(), Boolean.FALSE);
+        var person = new Person("TESTE", "111111", "teste@gmail", LocalDate.now(), Boolean.FALSE);
 
         // Act and Assert
         assertThatThrownBy(() -> service.add(person, null))
@@ -71,10 +73,10 @@ public class PersonServiceTest {
     @Test
     void deveria_atualizar_uma_pessoa_com_cpf_valido() {
         // Arrange
-        when(mockPersonRepository.findById(any())).thenReturn(Optional.of(new Person(1)) );
+        when(mockPersonRepository.findById(any())).thenReturn(Optional.of(new Person(1)));
         when(mockPersonRepository.save(any())).thenReturn(new Person(1));
 
-        var person = new Person("TESTE","76060106099","teste@gmail", LocalDate.now(), Boolean.FALSE);
+        var person = new Person("TESTE", "76060106099", "teste@gmail", LocalDate.now(), Boolean.FALSE);
 
         // Act
         Boolean result = null;
@@ -91,10 +93,10 @@ public class PersonServiceTest {
     @Test
     void nao_deveria_atualizar_uma_pessoa_com_cpf_invalido_com_o_seu_avatar() {
         // Arrange
-        when(mockPersonRepository.findById(any())).thenReturn(Optional.of(new Person(1)) );
+        when(mockPersonRepository.findById(any())).thenReturn(Optional.of(new Person(1)));
         when(mockPersonRepository.save(any())).thenReturn(new Person(1));
 
-        var person = new Person("TESTE","99999999","teste@gmail", LocalDate.now(), Boolean.FALSE);
+        var person = new Person("TESTE", "99999999", "teste@gmail", LocalDate.now(), Boolean.FALSE);
 
         // Act and Assert
         assertThatThrownBy(() -> service.update(person, null))
@@ -104,14 +106,14 @@ public class PersonServiceTest {
     @Test
     void deveria_deletar_uma_pessoa_valida() {
         // Arrange
-        when(mockPersonRepository.findById(any())).thenReturn(Optional.of(new Person(1)) );
+        when(mockPersonRepository.findById(any())).thenReturn(Optional.of(new Person(1)));
         when(mockPersonRepository.save(any())).thenReturn(new Person(1));
 
         // Act
         Boolean result = null;
         try {
             result = service.delete(1);
-        } catch (NotFoundException  e) {
+        } catch (NotFoundException e) {
             fail(e.getMessage());
         }
 
@@ -127,5 +129,29 @@ public class PersonServiceTest {
         // Act and Assert
         assertThatThrownBy(() -> service.delete(1))
                 .isInstanceOf(NotFoundException.class);
+    }
+
+    @Test
+    void deveria_salvar_e_atualizar_uma_integracao() {
+        // Arrange
+
+        var mockList = new ArrayList<Person>();
+        mockList.add(new Person());
+        mockList.add(new Person());
+
+        when(mockPersonRepository.findById(any())).thenReturn(Optional.of(new Person(1)));
+        when(mockPersonRepository.saveAll(any())).thenReturn(mockList);
+
+        var persons = new ArrayList<Person>();
+        persons.add(new Person("TESTE1", "76060106099", "teste1@gmail", LocalDate.now(), Boolean.TRUE));
+        persons.add(new Person(1, "TESTE2", "76060106045", "teste2@gmail", LocalDate.now(), Boolean.TRUE));
+
+        List<Person> result = null;
+        // Act
+        result = service.upsert(persons);
+
+
+        // Assert
+        assertNotNull( result);
     }
 }

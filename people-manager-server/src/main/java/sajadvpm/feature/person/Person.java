@@ -50,6 +50,15 @@ public class Person {
         this.id   = id;
     }
 
+    public Person(Integer id, String name, String cpf, String email, LocalDate birthDate, Boolean active) {
+        this.id = id;
+        this.name = name;
+        this.cpf = cpf;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.isActive = active;
+    }
+
     public Person(String name, String cpf, String email, LocalDate birthDate, Boolean active) {
         this.name = name;
         this.cpf = cpf;

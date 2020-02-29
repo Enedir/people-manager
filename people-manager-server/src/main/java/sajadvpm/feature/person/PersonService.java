@@ -9,6 +9,7 @@ import sajadvpm.exception.NotFoundException;
 import sajadvpm.feature.file.File;
 import sajadvpm.feature.file.FileRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +52,7 @@ public class PersonService implements IPersonService {
     @Override
     public Boolean update(Person entity, Integer avatarId) throws NotFoundException, CpfValidationExeption {
 
-        logger.info("Validando se o CPF é valido para a atualização do registro "  + entity.getId() + " na base.");
+        logger.info("Validando se o CPF é valido para a atualização do registro " + entity.getId() + " na base.");
 
         validate(entity.getCpf());
 
@@ -64,11 +65,30 @@ public class PersonService implements IPersonService {
 
         entity.updatePerson(existing, avatar);
 
-        logger.info("Atualizando a pessoa " + entity.getId() +" na base.");
+        logger.info("Atualizando a pessoa " + entity.getId() + " na base.");
 
         var updatePerson = personRepository.save(entity);
 
         return updatePerson != null;
+    }
+
+    @Override
+    public List<Person> upsert(List<Person> entities) {
+
+        var persons = new ArrayList<Person>();
+
+        for (var person : entities) {
+
+            if (person.getId() == null)
+                person.newPerson(null);
+            else {
+                var existing = personRepository.findById(person.getId()).get();
+                person.updatePerson(existing, null);
+            }
+            persons.add(person);
+        }
+
+        return personRepository.saveAll(persons);
     }
 
     @Override
@@ -95,7 +115,7 @@ public class PersonService implements IPersonService {
 
         var entity = get(id);
 
-        logger.info("Desativando a pessoa " + id +" na base.");
+        logger.info("Desativando a pessoa " + id + " na base.");
 
         entity.deactivate();
 
@@ -106,7 +126,7 @@ public class PersonService implements IPersonService {
 
     @Override
     public Boolean checkCpfIsRepeated(String cpf) {
-        return  personRepository.getCpfCount(cpf) > _isGreaterThan;
+        return personRepository.getCpfCount(cpf) > _isGreaterThan;
     }
 
 
@@ -116,9 +136,8 @@ public class PersonService implements IPersonService {
 
         try {
             cpfValidator.assertValid(cpf);
-        }catch (Exception ex)
-        {
-             throw new CpfValidationExeption();
+        } catch (Exception ex) {
+            throw new CpfValidationExeption();
         }
     }
 }
