@@ -43,7 +43,6 @@ export class PersonFormComponent {
         this.previewUrl = reader.result;
         this.fileService.uploadImage(files)
           .pipe(uploadProgress(progress => {
-            console.log(progress);
             this.progress = progress;
           }),
             filterResponse()
