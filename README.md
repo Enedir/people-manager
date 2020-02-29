@@ -1,10 +1,10 @@
 # Gerenciador de Pessoas
 
-Esse projeto tem como objetivo criar uma aplicação de gerenciamento de pessoas, que possa se integrar com outros sistemas via uma WEB API e também se comunição com uma aplicação web e mobile via a mesma WEB API.
+Esse projeto tem como objetivo criar uma aplicação de gerenciamento de pessoas, que possa se integrar com outros sistemas via uma WEB API e se comunição com uma aplicação web e mobile via a mesma WEB API.
 
 ## Começando
 
-Para pode executar a aplicação é possível realizar por duas vias, a primeia é executar um docker-compose e contruir todo o ambiente automatizado da aplicação do zero, essa opção demanda um pouco mais de tempo até todo o ambiente ser contruido **A latencia da internet interfere no tempo de contrução do ambiente**. A segundo via é executar cada parte da aplicação de maneira separada (Banco de Dados, Backend e Frontend). 
+Para pode executar a aplicação é possível realizar por duas vias, primeia via é executar um docker-compose e contruir todo o ambiente automatizado da aplicação do zero, essa opção demanda um pouco mais de tempo até todo o ambiente ser contruido **A latencia da internet interfere no tempo de contrução do ambiente**. Segunda via é executar cada parte da aplicação de maneira separada (Banco de Dados, Backend e Frontend). 
 
 ### Pré-requisitos
 
