@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
-import { Observable, of, EMPTY } from 'rxjs';
-import { mergeMap, catchError } from 'rxjs/operators'
+import { Observable } from 'rxjs';
+
 import { environment } from './../../../../environments/environment';
 
 import { Person, PersonCommandRegister, PersonCommandUpdate } from './person.model';
@@ -36,7 +36,7 @@ export class PersonService {
   }
 
   public show(): Observable<Person[]> {
-    return this._http.get<Person[]>(`${this.baseUrl}/persons/show`);
+    return this._http.get<Person[]>(`${this.baseUrl}/persons`);
   }
 
   public IsCpfRepeated(cpf: string) : Observable<any> {

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { take } from 'rxjs/internal/operators/take';
+import { take }  from 'rxjs/operators';
 
 import { PersonService } from '../shared/person.service';
 import { PersonCommandRegister } from '../shared/person.model';

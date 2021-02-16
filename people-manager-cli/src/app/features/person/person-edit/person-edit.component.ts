@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { take } from 'rxjs/internal/operators/take';
+import { take } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { PersonService } from '../shared/person.service';
@@ -9,7 +9,7 @@ import { PersonService } from '../shared/person.service';
 import { CpfCnpjValidators } from './../../../shared/cpf/cpf-validator';
 
 import { Person, PersonCommandUpdate } from './../shared/person.model';
-import { PersonFormComponent } from '../person-form/person-form.component';
+
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 

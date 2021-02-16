@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { take } from 'rxjs/internal/operators/take';
+import { take }  from 'rxjs/operators';
 import { Person } from './../shared/person.model';
 
 import { MatTableDataSource } from '@angular/material/table';
